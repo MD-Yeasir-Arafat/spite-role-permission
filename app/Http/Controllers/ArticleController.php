@@ -6,9 +6,21 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ArticleController extends Controller
+class ArticleController extends Controller implements HasMiddleware
 {
+
+public static function middleware()
+    {
+        return [
+            new Middleware('permission:Show', only: ['index']),
+            new Middleware('permission:Add', only: ['create', 'store']),
+            new Middleware('permission:Edit', only: ['edit', 'update']),
+            new Middleware('permission:Delete', only: ['destroy']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */

@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -43,6 +44,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('article.edit');
     Route::put('/articles/{id}/update', [ArticleController::class, 'update'])->name('article.update');
     Route::delete('/articles/delete', [ArticleController::class, 'destroy'])->name('article.destroy');
+
+    //users routs
+    Route::get('/users', [UserController::class, 'index'])->name('user.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/users/store', [UserController::class, 'store'])->name('user.store');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/users/{id}/update', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/users/delete', [UserController::class, 'destroy'])->name('user.destroy');
 
 });
 

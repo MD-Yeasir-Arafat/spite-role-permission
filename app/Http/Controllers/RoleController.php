@@ -7,15 +7,28 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 use function Pest\Laravel\session;
 
-class RoleController extends Controller
+class RoleController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware('permission:Show', only: ['index']),
+            new Middleware('permission:Add', only: ['create', 'store']),
+            new Middleware('permission:Edit', only: ['edit', 'update']),
+            new Middleware('permission:Delete', only: ['destroy']),
+        ];
+    }
+     /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $roles = Role::orderBy('name', 'Asc')->paginate(1);
+         $roles = Role::orderBy('name', 'Asc')->paginate(10);
         return view('role.list',[
             'roles' => $roles,
         ]);
